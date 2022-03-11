@@ -1,0 +1,22 @@
+CREATE TABLE usuarios (
+	id serial NOT NULL,
+	nombreapellido varchar(150) NOT NULL,
+	nombreusuario varchar(50) NOT NULL,
+	"password" varchar(1000) NOT NULL,
+	activo bool NOT NULL,
+	email varchar(100) NULL,
+	CONSTRAINT usuarios_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE roles (
+	id serial NOT NULL,
+	nombre varchar(150) NOT NULL,
+	CONSTRAINT roles_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE usuarios_roles (
+	id_usuarios int4 NULL,
+	id_roles int4 NULL,
+	CONSTRAINT usuarios_roles_id_roles_fkey FOREIGN KEY (id_roles) REFERENCES roles(id),
+	CONSTRAINT usuarios_roles_id_usuarios_fkey FOREIGN KEY (id_usuarios) REFERENCES usuarios(id)
+);
