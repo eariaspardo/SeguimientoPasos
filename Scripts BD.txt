@@ -20,3 +20,128 @@ CREATE TABLE usuarios_roles (
 	CONSTRAINT usuarios_roles_id_roles_fkey FOREIGN KEY (id_roles) REFERENCES roles(id),
 	CONSTRAINT usuarios_roles_id_usuarios_fkey FOREIGN KEY (id_usuarios) REFERENCES usuarios(id)
 );
+
+#######################################
+INSERT INTO public.roles
+(nombre)
+VALUES('ROLE_USER');
+INSERT INTO public.roles
+(nombre)
+VALUES('ROLE_ADMIN');
+INSERT INTO public.roles
+(nombre)
+VALUES('ROLE_SUPER_ADMIN');
+
+#######################################
+INSERT INTO public.usuarios
+(nombreapellido, nombreusuario, "password", activo, email)
+VALUES('Edilson Arias Pardo', 'mincha', '123', true, 'edilsonarias@gmail.com');
+INSERT INTO public.usuarios
+(nombreapellido, nombreusuario, "password", activo, email)
+VALUES('Luz Deiby Arias', 'deiby', '123', true, '');
+
+#######################################
+INSERT INTO public.usuarios_roles
+(id_usuarios, id_roles)
+VALUES(1, 1);
+INSERT INTO public.usuarios_roles
+(id_usuarios, id_roles)
+VALUES(1, 2);
+INSERT INTO public.usuarios_roles
+(id_usuarios, id_roles)
+VALUES(1, 3);
+INSERT INTO public.usuarios_roles
+(id_usuarios, id_roles)
+VALUES(2, 1);
+
+
+################### CREAR TABLA PROYECTOS ####################
+CREATE TABLE proyectos (
+	id int NOT NULL,
+	nombreProyecto varchar(200) NOT NULL,
+	valorProyecto decimal(10,2) NOT NULL,
+	cuotas numeric(3,0) NOT NULL,
+	fechaPagos DATE NULL,
+	usuario numeric(3,0) NOT NULL,
+	icono varchar(50) NULL,
+	estado varchar(20) NULL,
+	CONSTRAINT proyectos_pkey PRIMARY KEY (id)
+);
+
+
+################### CREAR TABLA DETALLE ADJUNTO ####################
+CREATE TABLE adjunto (
+	id int NOT NULL,
+	nombre varchar(200) NOT NULL,
+	url_adjunto varchar(400) NOT NULL,
+	descripcion varchar(700) NULL,
+	CONSTRAINT adjunto_pkey PRIMARY KEY (id)
+);
+
+
+################### CREAR TABLA DETALLE PROYECTOS ####################
+CREATE TABLE detalle_proyecto (
+	id int NOT NULL,
+	id_proyecto int NOT NULL,
+	numero_cuota numeric(3,0) NOT NULL,
+	valor_pagado decimal(10,2) NOT NULL,
+	fecha_pagado DATE NOT NULL,
+	usuario_pago numeric(3,0) NOT NULL,
+	id_adjunto int NULL,
+	CONSTRAINT detalleProyecto_pkey PRIMARY KEY (id),
+	CONSTRAINT proyecto_detalle_proyecto_fkey FOREIGN KEY (id_proyecto) REFERENCES proyectos(id),
+	CONSTRAINT adjunto_detalle_proyecto_fkey FOREIGN KEY (id_adjunto) REFERENCES adjunto(id)
+);
+
+################### Crear Secuencias ######################################
+CREATE SEQUENCE usuarios_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+CREATE SEQUENCE roles_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+CREATE SEQUENCE proyectos_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+	
+
+CREATE SEQUENCE detalle_proyecto_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+	
+
+CREATE SEQUENCE adjunto_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+################### Secuencias ######################################
+ALTER TABLE usuarios ALTER COLUMN id SET DEFAULT nextval('usuarios_id_seq'::regclass);
+ALTER TABLE roles ALTER COLUMN id SET DEFAULT nextval('roles_id_seq'::regclass);
+ALTER TABLE proyectos ALTER COLUMN id SET DEFAULT nextval('proyectos_id_seq'::regclass);
+ALTER TABLE detalle_proyecto ALTER COLUMN id SET DEFAULT nextval('detalle_proyecto_id_seq'::regclass);
+ALTER TABLE adjunto ALTER COLUMN id SET DEFAULT nextval('adjunto_id_seq'::regclass);
+
+
+
