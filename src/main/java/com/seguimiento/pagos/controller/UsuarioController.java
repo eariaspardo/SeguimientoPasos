@@ -2,6 +2,7 @@ package com.seguimiento.pagos.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -22,18 +23,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.seguimiento.pagos.entity.Rol;
 import com.seguimiento.pagos.entity.Usuario;
+import com.seguimiento.pagos.enums.RolNombre;
 import com.seguimiento.pagos.security.modelo.request.RolModel;
 import com.seguimiento.pagos.security.modelo.request.UsuarioModel;
+import com.seguimiento.pagos.service.RolService;
 import com.seguimiento.pagos.service.UsuarioService;
 
 @RestController
 @RequestMapping("/usuario")
 @CrossOrigin(origins = {"*", "http://localhost:4100/", "http://localhost:4100/"}, maxAge = 3600)
-public class UsuarioController {
+public class UsuarioController{
 
 
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private RolService rolService;
 	
     @GetMapping("/obtenerTodos")
     public ResponseEntity<List<Usuario>> list(){
@@ -50,14 +56,23 @@ public class UsuarioController {
     	usu.setId(null);
         Usuario userEntity = new Usuario();
         BeanUtils.copyProperties(usu, userEntity); // En caso de querer mappear el objeto de un entity a un DTO o visebersa
-        List<Rol> roles = new ArrayList<>();
-        for(RolModel item : usu.getRoles()) {
-        	Rol rol = new Rol(); 
-        	BeanUtils.copyProperties(item, rol);
-        	roles.add(rol);
+        
+        // Mapear todos los Ids con Null
+        usu.setRoles(usu.getRoles().stream().map(idRol -> new RolModel(null, idRol.getNombre())).collect(Collectors.toList()));
+        
+        // Si el Usuario a crear llega sin roles, le va a mappear el usuario por defecto de ROLE_USER
+        if(usu.getRoles() == null || usu.getRoles().isEmpty()) {
+        	usu.setRoles(new ArrayList<>());
+        	usu.getRoles().add(new RolModel(null, RolNombre.ROLE_USER.toString()));
         }
-        BeanUtils.copyProperties(usu.getRoles(), roles);
+        
+        List<Rol> roles = new ArrayList<>();
+    	for(RolModel itemRol : usu.getRoles()) {
+    		Rol rol = rolService.getByRolNombre(itemRol.getNombre()); 
+        	roles.add(rol);
+    	}
         userEntity.setRoles(roles);
+        
     	return new ResponseEntity<Usuario>(usuarioService.guardar(userEntity), HttpStatus.OK);
     }
 

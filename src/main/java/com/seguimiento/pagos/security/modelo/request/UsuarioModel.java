@@ -6,11 +6,13 @@ import javax.validation.constraints.NotNull;
 
 import com.seguimiento.pagos.validators.UniqueUserNameAnnotations;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class UsuarioModel {
    
 	private Long id;

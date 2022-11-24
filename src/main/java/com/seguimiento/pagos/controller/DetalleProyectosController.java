@@ -21,7 +21,7 @@ import com.seguimiento.pagos.service.DetalleProyectoService;
 @RestController
 @RequestMapping("/detalle")
 @CrossOrigin(origins = {"*", "http://localhost:4100/"}, maxAge = 3600)
-public class DetalleProyectosController {
+public class DetalleProyectosController{
 
 	@Autowired
 	private DetalleProyectoService detalleProyectoService;

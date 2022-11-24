@@ -44,7 +44,7 @@ public class Proyecto {
 	
 	private String icono;
 	
-	@OneToMany(mappedBy = "id")
+	@OneToMany(mappedBy = "idProyecto")
 	private List<DetalleCuotas> detallesPagos; 
 	
 	private String estado;

@@ -49,9 +49,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
         // Los permisos que tendran las URL
         http.authorizeRequests()
-        //.antMatchers(HttpMethod.GET, "/usuario/**").permitAll() // Permisos de que tendra la ruta o URL
         .antMatchers(HttpMethod.GET, "/usuario/login").permitAll()
-        //.antMatchers(HttpMethod.POST, "/usuario/guardar").permitAll()
+        //.antMatchers(HttpMethod.GET, "/usuario/**").permitAll() // Permisos de que tendra la ruta o URL sobre el metodo GET
+        //.antMatchers(HttpMethod.POST, "/usuario/guardar").permitAll() // Permisos de que tendra la ruta o URL sobre el metodo POST
         .anyRequest().authenticated();
         
         // para añadir el filtro de autenticacion

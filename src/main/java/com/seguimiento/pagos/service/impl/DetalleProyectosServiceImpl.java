@@ -38,6 +38,8 @@ public class DetalleProyectosServiceImpl implements DetalleProyectoService{
 	}
 
 	public DetalleCuotas saveCuota(DetalleCuotas detalleProyecto) {
+		detalleProyecto.setId(null);
+		detalleProyecto.setIdAdjunto(detalleProyecto.getIdAdjunto() == 0 ? null : detalleProyecto.getIdAdjunto());
 		return detalleProyectoRepository.save(detalleProyecto);
 	}
 
