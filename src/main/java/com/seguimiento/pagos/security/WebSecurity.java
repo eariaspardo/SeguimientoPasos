@@ -51,7 +51,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
         .antMatchers(HttpMethod.GET, "/usuario/login").permitAll()
         //.antMatchers(HttpMethod.GET, "/usuario/**").permitAll() // Permisos de que tendra la ruta o URL sobre el metodo GET
-        //.antMatchers(HttpMethod.POST, "/usuario/guardar").permitAll() // Permisos de que tendra la ruta o URL sobre el metodo POST
+        .antMatchers(HttpMethod.POST, "/usuario/guardar").permitAll() // Permisos de que tendra la ruta o URL sobre el metodo POST
         .anyRequest().authenticated();
         
         // para añadir el filtro de autenticacion
@@ -72,7 +72,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         return authenticationFilter;
     }
     
-    // Configuracion de los cors parala parte de seguridad
+    // Configuracion de los cors para la parte de seguridad
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration cc = new CorsConfiguration();

@@ -66,7 +66,7 @@ CREATE TABLE proyectos (
 	valorProyecto decimal(10,2) NOT NULL,
 	cuotas numeric(3,0) NOT NULL,
 	fechaPagos DATE NULL,
-	usuario numeric(3,0) NOT NULL,
+	usuario int4 NOT NULL,
 	icono varchar(50) NULL,
 	estado varchar(20) NULL,
 	CONSTRAINT proyectos_pkey PRIMARY KEY (id)
@@ -147,6 +147,8 @@ ALTER TABLE roles ALTER COLUMN id SET DEFAULT nextval('roles_id_seq'::regclass);
 ALTER TABLE proyectos ALTER COLUMN id SET DEFAULT nextval('proyectos_id_seq'::regclass);
 ALTER TABLE detalle_proyecto ALTER COLUMN id SET DEFAULT nextval('detalle_proyecto_id_seq'::regclass);
 ALTER TABLE adjunto ALTER COLUMN id SET DEFAULT nextval('adjunto_id_seq'::regclass);
+ALTER TABLE proyectos ADD CONSTRAINT usuario_proyecto_fkey FOREIGN KEY (id) REFERENCES usuarios(id);
+
 
 
 
